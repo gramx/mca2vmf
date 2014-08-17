@@ -14,5 +14,5 @@ Other work
 -------
 The code used to read Mincraft map files .mca was heavily based on the Substrate project. Also the textures used are inspired by the the textures used in Minecraft (Mojang). Any copies of copyrighted material should be removed immediately. The intent is that original material be used aside from .mcr files.
 
-* Substrate [Justin Aquadro] (https://github.com/jaquadro/Substrate) -- `Used for file parsing of the .mca file.`
-* Minecraft vector graphics [Grahame Cenkner] (https://github.com/gramx/mcvectorfx) -- `Used for vector graphics.`
+* [Substrate] (https://github.com/jaquadro/Substrate) -- `Used for file parsing of the .mca file, Justin Aquadro `
+* [Minecraft vector graphics] (https://github.com/gramx/mcvectorfx) -- `Used for vector graphics, Grahame Cenkner `
