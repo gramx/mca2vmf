@@ -1,5 +1,6 @@
-mca2vmf - .mac to .vmf conversion helper
+mca2vmf
 =======
+.mca to .vmf conversion helper
 
 Summary
 -------
