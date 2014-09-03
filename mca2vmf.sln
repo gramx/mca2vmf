@@ -5,6 +5,10 @@ VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mca2vmf", "mca2vmf\mca2vmf.csproj", "{28A0C8D3-2771-4BFD-9EE8-FBD411FB6249}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Substrate (NET4)", "..\Substrate\SubstrateCS\Substrate (NET4).csproj", "{7264A1C4-AB4A-4437-B252-7379B98B5509}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mca2vmfExample", "mca2vmfExample\mca2vmfExample.csproj", "{5B72C335-F6BE-4306-9F48-1B451AE3A780}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{28A0C8D3-2771-4BFD-9EE8-FBD411FB6249}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28A0C8D3-2771-4BFD-9EE8-FBD411FB6249}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28A0C8D3-2771-4BFD-9EE8-FBD411FB6249}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7264A1C4-AB4A-4437-B252-7379B98B5509}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7264A1C4-AB4A-4437-B252-7379B98B5509}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7264A1C4-AB4A-4437-B252-7379B98B5509}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7264A1C4-AB4A-4437-B252-7379B98B5509}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B72C335-F6BE-4306-9F48-1B451AE3A780}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B72C335-F6BE-4306-9F48-1B451AE3A780}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B72C335-F6BE-4306-9F48-1B451AE3A780}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B72C335-F6BE-4306-9F48-1B451AE3A780}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
