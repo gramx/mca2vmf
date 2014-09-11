@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using mca2vmf;
+
 namespace mca2vmfExample
 {
     public class Example
@@ -12,8 +14,10 @@ namespace mca2vmfExample
         [STAThread]
         public static void Main(string[] args)
         {
+            Decimal xzStart = 0;
+            Decimal xzEnd = 0;
 #if DEBUG
-                inDebug = true;
+            inDebug = true;
 #endif
             if (inDebug)
             {
@@ -24,14 +28,43 @@ namespace mca2vmfExample
                 }
             }
             //IF nothing found run help text
-            if (args.Length == 0)
+            if (args.Length < 4 || string.IsNullOrWhiteSpace(args[0]) || string.IsNullOrWhiteSpace(args[1]) || args[2] == null || args[3] == null)
             {
                 HelpText(args);
+                Console.ReadLine();
+                Environment.Exit(0);
             }
 
-            //Get file
-
-
+            if (!Decimal.TryParse(args[2], out xzStart))
+            {
+                Console.WriteLine("Error: XZCoordinateStart could not be converted to Decimal type (invalid?)");
+                Console.ReadLine();
+                Environment.Exit(0);
+            }
+            if (!Decimal.TryParse(args[3], out xzEnd))
+            {
+                Console.WriteLine("Error: XZCoordinateEnd could not be converted to Decimal type (invalid?)");
+                Console.ReadLine();
+                Environment.Exit(0);
+            }
+            //Load File
+            Console.WriteLine("Loading Minecraft files...");
+            if (!ConvertFile.LoadWorld(args[0]))
+            {
+                Console.WriteLine("Unknowen error reading Minecraft files.");
+                Console.ReadLine();
+                Environment.Exit(0);
+            }
+            Console.WriteLine("Minecraft files loaded.");
+            Console.WriteLine("Minecraft files parseing...");
+            if (!ConvertFile.ParseWorld(xzStart, xzEnd))
+            {
+                Console.WriteLine("Unknowen error parcing minecraft files.");
+                Console.ReadLine();
+                Environment.Exit(0);
+            }
+            Console.WriteLine("Minecraft files parsed.");
+            Console.ReadLine();
         }
 
         private static void HelpText(string[] args)
@@ -43,7 +76,7 @@ namespace mca2vmfExample
             Console.WriteLine("");
             Console.WriteLine("Call using the parameters  (order matters):");
             Console.WriteLine("");
-            Console.WriteLine("1: \"PathToMCA\"\t\t - Where is the Mincraft map located?");
+            Console.WriteLine("1: \"PathToMCLevelFiles\"\t - Where is the level.dat ext, found?");
             Console.WriteLine("2: \"PathToVMF\"\t\t - Where will the output Valve Map will be saved?");
             Console.WriteLine("3: \"XZCoordinateStart\"\t - Where will the converted map start?");
             Console.WriteLine("4: \"XZCoordinateEnd\"\t - Where will the converted map end?");

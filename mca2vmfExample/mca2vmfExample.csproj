@@ -46,6 +46,12 @@
     <Compile Include="Example.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\mca2vmf\mca2vmf.csproj">
+      <Project>{28a0c8d3-2771-4bfd-9ee8-fbd411fb6249}</Project>
+      <Name>mca2vmf</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
