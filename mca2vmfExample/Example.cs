@@ -14,8 +14,12 @@ namespace mca2vmfExample
         [STAThread]
         public static void Main(string[] args)
         {
-            Decimal xzStart = 0;
-            Decimal xzEnd = 0;
+            int xStart = 0;
+            int zStart = 0;
+            int xEnd = 0;
+            int zEnd = 0;
+            int yTop = 255;
+            int yBottom = 0;
 #if DEBUG
             inDebug = true;
 #endif
@@ -28,24 +32,51 @@ namespace mca2vmfExample
                 }
             }
             //IF nothing found run help text
-            if (args.Length < 4 || string.IsNullOrWhiteSpace(args[0]) || string.IsNullOrWhiteSpace(args[1]) || args[2] == null || args[3] == null)
+            if (args.Length < 6 || string.IsNullOrWhiteSpace(args[0]) || string.IsNullOrWhiteSpace(args[1]) || args[2] == null || args[3] == null)
             {
                 HelpText(args);
                 Console.ReadLine();
                 Environment.Exit(0);
             }
 
-            if (!Decimal.TryParse(args[2], out xzStart))
+            if (!int.TryParse(args[2], out xStart))
             {
-                Console.WriteLine("Error: XZCoordinateStart could not be converted to Decimal type (invalid?)");
+                Console.WriteLine("Error: XCoordinateStart ({0}) could not be converted to int type (invalid?)", args[2]);
                 Console.ReadLine();
                 Environment.Exit(0);
             }
-            if (!Decimal.TryParse(args[3], out xzEnd))
+            if (!int.TryParse(args[3], out zStart))
             {
-                Console.WriteLine("Error: XZCoordinateEnd could not be converted to Decimal type (invalid?)");
+                Console.WriteLine("Error: ZCoordinateStart ({0}) could not be converted to int type (invalid?)", args[3]);
                 Console.ReadLine();
                 Environment.Exit(0);
+            }
+            if (!int.TryParse(args[4], out xEnd))
+            {
+                Console.WriteLine("Error: XCoordinateEnd ({0}) could not be converted to int type (invalid?)", args[4]);
+                Console.ReadLine();
+                Environment.Exit(0);
+            }
+            if (!int.TryParse(args[5], out zEnd))
+            {
+                Console.WriteLine("Error: ZCoordinateEnd ({0}) could not be converted to int type (invalid?)", args[5]);
+                Console.ReadLine();
+                Environment.Exit(0);
+            }
+            if (args.Length == 8)
+            {
+                if (!int.TryParse(args[6], out yTop))
+                {
+                    Console.WriteLine("Error: YHightMax ({0}) could not be converted to int type (invalid?)", args[6]);
+                    Console.ReadLine();
+                    Environment.Exit(0);
+                }
+                if (!int.TryParse(args[7], out yBottom))
+                {
+                    Console.WriteLine("Error: YHightMin ({0}) could not be converted to int type (invalid?)", args[7]);
+                    Console.ReadLine();
+                    Environment.Exit(0);
+                }
             }
             //Load File
             Console.WriteLine("Loading Minecraft files...");
@@ -56,14 +87,14 @@ namespace mca2vmfExample
                 Environment.Exit(0);
             }
             Console.WriteLine("Minecraft files loaded.");
-            Console.WriteLine("Minecraft files parseing...");
-            if (!ConvertFile.ParseWorld(xzStart, xzEnd))
+            Console.WriteLine("Minecraft files trimming...");
+            if (!ConvertFile.TrimWorld(xStart, zStart, xEnd, zEnd, yTop, yBottom))
             {
-                Console.WriteLine("Unknowen error parcing minecraft files.");
+                Console.WriteLine("Unknowen error trimming minecraft files.");
                 Console.ReadLine();
                 Environment.Exit(0);
             }
-            Console.WriteLine("Minecraft files parsed.");
+            Console.WriteLine("Minecraft files trimed.");
             Console.ReadLine();
         }
 
@@ -78,8 +109,12 @@ namespace mca2vmfExample
             Console.WriteLine("");
             Console.WriteLine("1: \"PathToMCLevelFiles\"\t - Where is the level.dat ext, found?");
             Console.WriteLine("2: \"PathToVMF\"\t\t - Where will the output Valve Map will be saved?");
-            Console.WriteLine("3: \"XZCoordinateStart\"\t - Where will the converted map start?");
-            Console.WriteLine("4: \"XZCoordinateEnd\"\t - Where will the converted map end?");
+            Console.WriteLine("3: \"XCoordinateStart\"\t - What chunk X will the converted map start?");
+            Console.WriteLine("4: \"ZCoordinateStart\"\t - What chunk Z will the converted map start?");
+            Console.WriteLine("5: \"XCoordinateEnd\"\t - What chunk X will the converted map end?");
+            Console.WriteLine("6: \"ZCoordinateEnd\"\t - What chunk Z will the converted map end?");
+            Console.WriteLine("7: \"YHightMax\"\t - Top of the map? (optional)");
+            Console.WriteLine("8: \"YHightMin\"\t - Bottom of the map? (optional)");
             Console.WriteLine("");
             Console.WriteLine("NOTE:");
             Console.WriteLine(" A: If you parameters have spaces use quotes around the value.");

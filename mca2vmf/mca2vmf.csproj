@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="ConvertFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VolxClasses\SimpleChunkRef.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Substrate\SubstrateCS\Substrate %28NET4%29.csproj">
