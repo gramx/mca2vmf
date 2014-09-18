@@ -20,9 +20,16 @@ namespace ValardMapFormatConverter
         public List<group> group;
         public List<hidden> hidden;
 
-        public void world()
+        public world()
         {
+            id = 0;
+            mapversion = String.Empty;
             classname = "worldspawn";
+            detailmaterial = String.Empty;
+            detailvbsp = String.Empty;
+            maxpropscreenwidth = 0;
+            musicpostfix = String.Empty;
+            skyname = String.Empty;
         }
 
         public string Serialize()

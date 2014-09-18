@@ -14,7 +14,7 @@ namespace ValardMapFormatConverter
         public int nGridSpacing;
         public bool bShow3DGrid;
 
-        public void viewsettings()
+        public viewsettings()
         {
             bSnapToGrid = false;
             bShowGrid = false;

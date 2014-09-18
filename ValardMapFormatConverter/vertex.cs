@@ -8,18 +8,18 @@ namespace ValardMapFormatConverter
 {
     public class vertex
     {
-        public Decimal x;
-        public Decimal y;
-        public Decimal z;
+        public double x;
+        public double y;
+        public double z;
 
-        public void vertex()
+        public vertex()
         {
             x = 0;
             y = 0;
             z = 0;
         }
 
-        public void vertex(Decimal X, Decimal Y, Decimal Z)
+        public vertex(double X, double Y, double Z)
         {
             x = X;
             y = Y;
@@ -28,11 +28,11 @@ namespace ValardMapFormatConverter
 
         public string Serialize()
         {
-            StringBuilder sb = new StringBuilder(x.ToString());
+            StringBuilder sb = new StringBuilder(x.ToString("F"));
             sb.Append(" ");
-            sb.Append(y.ToString());
+            sb.Append(y.ToString("F"));
             sb.Append(" ");
-            sb.Append(z.ToString());
+            sb.Append(z.ToString("F"));
             return sb.ToString();
         }
     }

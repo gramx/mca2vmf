@@ -9,7 +9,8 @@ namespace ValardMapFormatConverter
     public class cordons
     {
         public bool active;
-        public void cordons()
+
+        public cordons()
         {
             active = false;
         }

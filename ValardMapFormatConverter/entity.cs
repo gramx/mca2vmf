@@ -17,7 +17,7 @@ namespace ValardMapFormatConverter
         public vertex origin;
         public List<editor> editor;
 
-        public void entity()
+        public entity()
         {
 
         }

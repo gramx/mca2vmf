@@ -12,14 +12,14 @@ namespace ValardMapFormatConverter
         public int blue;
         public int green;
 
-        public void rbg()
+        public rbg()
         {
             red = 0;
             blue = 0;
             green = 0;
         }
 
-        public void rbg(Int16 Red, Int16 Blue, Int16 Green)
+        public rbg(Int16 Red, Int16 Blue, Int16 Green)
         {
             red = Red;
             blue = Blue;

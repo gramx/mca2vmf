@@ -12,7 +12,7 @@ namespace ValardMapFormatConverter
         public List<side> side;
         public editor editor;
 
-        public void solid()
+        public solid()
         {
 
         }

@@ -10,9 +10,30 @@ namespace ValardMapFormatConverter
     {
         public List<vertex> vertex;
 
-        public void plain()
+        public plane()
         {
+            vertex = new List<vertex>();
+        }
 
+        public plane(List<vertex> Vertex)
+        {
+            vertex = Vertex;
+        }
+
+        public string Serialize()
+        {
+            StringBuilder sb = new StringBuilder("");
+            if (vertex != null || vertex.Count > 0)
+            {
+                foreach (vertex v in vertex)
+                {
+                    sb.Append("(");
+                    sb.Append(v.Serialize());
+                    sb.Append(") ");
+                }
+                sb.Remove(sb.Length - 1, 1);
+            }
+            return sb.ToString();
         }
     }
 }

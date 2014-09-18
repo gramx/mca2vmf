@@ -11,7 +11,7 @@ namespace ValardMapFormatConverter
         public int id;
         public List<editor> editor;
 
-        public void group()
+        public group()
         {
 
         }

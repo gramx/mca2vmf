@@ -9,23 +9,25 @@ namespace ValardMapFormatConverter
     public class side
     {
         public int id;
-
-        //TODO !! NOT A STRING
-        public string plane;
-
+        public plane plane;
         public string material;
-
-        //TODO !! MISSING
-        //public string uaxis;
-        //public string vaxis;
-
-        public Decimal rotation;
+        public axis uaxis;
+        public axis vaxis;
+        public double rotation;
         public int lightmapscale;
         public int smoothing_groups;
+        public dispinfo dispinfo;
 
-        public void slide()
+        public side()
         {
-
+            id = 0;
+            plane = new plane();
+            material = String.Empty;
+            uaxis = new axis();
+            vaxis = new axis();
+            rotation = 0;
+            lightmapscale = 0;
+            smoothing_groups = 0;
         }
 
         public string Serialize()
@@ -35,22 +37,23 @@ namespace ValardMapFormatConverter
             sb.AppendLine("\t\"id\"\t\"");
             sb.Append(id.ToString());
             sb.Append("\"");
-
-            //TODO !! NOT A STRING
-            sb.AppendLine("\t\"plane\"\t\"");
-            sb.Append(plane);
-            sb.Append("\"");
-
+            if (plane != null)
+            {
+                sb.AppendLine("\t\"plane\"\t\"");
+                sb.Append(plane.Serialize());
+                sb.Append("\"");
+            }
             sb.AppendLine("\t\"material\"\t\"");
             sb.Append(material);
             sb.Append("\"");
-
-            //TODO !! MISSING
-            //public string uaxis;
-            //public string vaxis;
-
+            sb.AppendLine("\t\"uaxis\"\t\"");
+            sb.Append(uaxis.Serialize());
+            sb.Append("\"");
+            sb.AppendLine("\t\"vaxis\"\t\"");
+            sb.Append(vaxis.Serialize());
+            sb.Append("\"");
             sb.AppendLine("\t\"rotation\"\t\"");
-            sb.Append(rotation.ToString());
+            sb.Append(rotation.ToString("F"));
             sb.Append("\"");
             sb.AppendLine("\t\"lightmapscale\"\t\"");
             sb.Append(lightmapscale.ToString());
@@ -58,22 +61,11 @@ namespace ValardMapFormatConverter
             sb.AppendLine("\t\"smoothing_groups\"\t\"");
             sb.Append(smoothing_groups.ToString());
             sb.Append("\"");
-
-            if (side != null || side.Count > 0)
+            if (dispinfo != null)
             {
-                foreach (side s in side)
-                {
-                    sb.AppendLine("\tside");
-                    sb.AppendLine(s.Serialize());
-                }
+                sb.AppendLine("\tdispinfo");
+                sb.AppendLine(dispinfo.Serialize());
             }
-
-            if (editor != null)
-            {
-                sb.AppendLine("\teditor");
-                sb.AppendLine(editor.Serialize());
-            }
-
             sb.AppendLine("}");
             return sb.ToString();
         }

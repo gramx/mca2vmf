@@ -10,7 +10,7 @@ namespace ValardMapFormatConverter
     {
         public List<string> OnTrigger;
 
-        public void connections()
+        public connections()
         {
 
         }

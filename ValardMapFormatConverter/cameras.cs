@@ -11,9 +11,10 @@ namespace ValardMapFormatConverter
         public bool activecamera;
         public List<camera> camera;
 
-        public void cameras()
+        public cameras()
         {
-
+            activecamera = false;
+            camera = new List<camera>();
         }
 
         public string Serialize()

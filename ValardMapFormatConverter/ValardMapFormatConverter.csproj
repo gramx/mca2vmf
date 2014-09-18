@@ -39,10 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="axis.cs" />
     <Compile Include="camera.cs" />
     <Compile Include="cameras.cs" />
     <Compile Include="connections.cs" />
     <Compile Include="cordons.cs" />
+    <Compile Include="dispinfo.cs" />
     <Compile Include="editor.cs" />
     <Compile Include="entity.cs" />
     <Compile Include="group.cs" />

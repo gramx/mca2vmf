@@ -15,7 +15,7 @@ namespace ValardMapFormatConverter
         public bool visgroupsutoshown;
         public string comments;
 
-        public void editor()
+        public editor()
         {
 
         }

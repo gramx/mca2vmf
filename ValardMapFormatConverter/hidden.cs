@@ -11,7 +11,7 @@ namespace ValardMapFormatConverter
         public List<solid> solid;
         public List<entity> entity;
 
-        public void hidden()
+        public hidden()
         {
 
         }

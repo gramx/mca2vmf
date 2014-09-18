@@ -16,9 +16,14 @@ namespace ValardMapFormatConverter
         public cameras cameras;
         public cordons cordons;
 
-        public void VMF()
+        public VMF()
         {
-
+            versioninfo = new versioninfo();
+            visgroups = new visgroups();
+            viewsettings = new viewsettings();
+            world = new world();
+            cameras = new cameras();
+            cordons = new cordons();
         }
 
         public string Serialize()
@@ -32,8 +37,11 @@ namespace ValardMapFormatConverter
             sb.AppendLine(viewsettings.Serialize());
             sb.AppendLine("\tworld");
             sb.AppendLine(world.Serialize());
-            sb.AppendLine("\tcameras");
-            sb.AppendLine(cameras.Serialize());
+            if (cameras != null)
+            {
+                sb.AppendLine("\tcameras");
+                sb.AppendLine(cameras.Serialize());
+            }
             sb.AppendLine("\tcordons");
             sb.AppendLine(cordons.Serialize());
             sb.AppendLine("}");

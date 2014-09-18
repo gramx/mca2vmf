@@ -12,7 +12,7 @@ namespace ValardMapFormatConverter
         public int visgroupid;
         public rbg color;
 
-        public void visgroups()
+        public visgroups()
         {
 
         }

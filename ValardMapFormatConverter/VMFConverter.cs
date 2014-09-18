@@ -9,10 +9,8 @@ namespace ValardMapFormatConverter
 {
     public static class VMFConverter
     {
-        public VMF CreateBasicVFM()
+        public static VMF SetupBasicVFM(VMF vfm)
         {
-            VMF vfm = new VMF();
-
             //versioninfo
             versioninfo vi = new versioninfo();
             vi.editorbuild = 400;
@@ -36,10 +34,8 @@ namespace ValardMapFormatConverter
             w.id = 1;
             w.mapversion = "1";
             w.classname = "worldspawn";
-            w.skyname = "sky_wasteland02"; //Maybe this should be a passin?
+            w.skyname = "sky_wasteland02"; //Maybe this should be a pass-in?
             w.solid = new List<solid>();
-            w.hidden = new List<hidden>();
-            w.group = new List<group>();
             vfm.world = w;
             
             //cameras
@@ -57,16 +53,18 @@ namespace ValardMapFormatConverter
             return vfm;
         }
 
-        public string SerializeVFM(VMF vmf)
+        public static string SerializeVFM(VMF vmf)
         {
+            //TODO simple check if valid file
 
-            return "";
+            return vmf.Serialize();
         }
 
-        public string DeserializeVFM(VMF vmf)
-        {
+        //TODO
+        //public static string DeserializeVFM(VMF vmf)
+        //{
 
-            return "";
-        }
+        //    return "";
+        //}
     }
 }

@@ -11,12 +11,12 @@ namespace ValardMapFormatConverter
         public vertex position;
         public vertex look;
 
-        public void camera()
+        public camera()
         {
             position = new vertex();
             look = new vertex();
         }
-        public void camera(vertex Position, vertex Look)
+        public camera(vertex Position, vertex Look)
         {
             position = Position;
             look = Look;

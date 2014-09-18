@@ -15,7 +15,7 @@ namespace ValardMapFormatConverter
         public int formatversion;
         public bool prefab;
 
-        public void versioninfo()
+        public versioninfo()
         {
             editorbuild = 0;
             editorbuild = 0;
