@@ -20,6 +20,12 @@ The code used to read Mincraft map files .mca was heavily based on the Substrate
 * [Valard Map Format Converter] (https://github.com/gramx/vfmconverter) -- `Used for easy to serialize CFM classes, Grahame Cenkner `
 
 
+
+
+
+
+
+
       Copyright 2014 Grahame Cenkner
 
 The LICENSE should be included in any-and-all disrubution see LICENSE for details.
