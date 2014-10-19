@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 using mca2vmf;
 
@@ -18,7 +19,7 @@ namespace mca2vmfExample
             int zStart = 0;
             int xEnd = 0;
             int zEnd = 0;
-            int yTop = 255;
+            int yTop = 256;
             int yBottom = 0;
 #if DEBUG
             inDebug = true;
@@ -86,16 +87,25 @@ namespace mca2vmfExample
                 Console.ReadLine();
                 Environment.Exit(0);
             }
-            Console.WriteLine("Minecraft files loaded.");
+            else
+            {
+                Console.WriteLine("Minecraft files loaded. Setting Bounds...");
+                ConvertFile.SetWorldBounds(xStart, zStart, xEnd, zEnd, yTop, yBottom);
+                Console.WriteLine("Bounds set. Building quick Ref ID Index...");
+                Stopwatch s1 = Stopwatch.StartNew();
+                ConvertFile.BuildIdIndex();
+                s1.Stop();
+                Console.WriteLine("Quick Ref ID Index built [{0}]", s1.Elapsed.ToString());
+            }
             //Console.WriteLine("Minecraft files trimming...");
-            //if (!ConvertFile.TrimWorld(xStart, zStart, xEnd, zEnd, yTop, yBottom))
+            //if (!ConvertFile.TrimWorld())
             //{
             //    Console.WriteLine("Unknowen error trimming minecraft files.");
             //    Console.ReadLine();
             //    Environment.Exit(0);
             //}
             //Console.WriteLine("Minecraft files trimed.");
-            //Console.ReadLine();
+            Console.ReadLine();
             //Test VMF generation
             Console.WriteLine("Testing VMF text generation...");
             StringBuilder testingText = ConvertFile.TestVMFGeneration();

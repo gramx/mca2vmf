@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mca2vmfExample", "mca2vmfEx
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValardMapFormatConverter", "ValardMapFormatConverter\ValardMapFormatConverter.csproj", "{8C24935B-914B-485A-80F3-5627F38A8C97}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dynovox", "Dynovox\Dynovox.csproj", "{B225CF69-FF25-4501-ADC1-0C620528D2A7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{8C24935B-914B-485A-80F3-5627F38A8C97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C24935B-914B-485A-80F3-5627F38A8C97}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C24935B-914B-485A-80F3-5627F38A8C97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B225CF69-FF25-4501-ADC1-0C620528D2A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B225CF69-FF25-4501-ADC1-0C620528D2A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B225CF69-FF25-4501-ADC1-0C620528D2A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B225CF69-FF25-4501-ADC1-0C620528D2A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
