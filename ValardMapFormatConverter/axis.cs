@@ -50,7 +50,7 @@ namespace ValardMapFormatConverter
             scaling = 0.25;
         }
 
-        public string Serialize()
+        public string Serialize(ref int tier)
         {
             StringBuilder sb = new StringBuilder("[");
             sb.Append(x.ToString("F"));

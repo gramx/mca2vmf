@@ -32,60 +32,43 @@ namespace ValardMapFormatConverter
             skyname = String.Empty;
         }
 
-        public string Serialize()
+        public string Serialize(ref int tier)
         {
-            StringBuilder sb = new StringBuilder("{");
-
-            sb.AppendLine("\t\"id\"\t\"");
-            sb.Append(id.ToString());
-            sb.Append("\"");
-            sb.AppendLine("\t\"mapversion\"\t\"");
-            sb.Append(mapversion);
-            sb.Append("\"");
-            sb.AppendLine("\t\"classname\"\t\"");
-            sb.Append(classname);
-            sb.Append("\"");
-            sb.AppendLine("\t\"detailmaterial\"\t\"");
-            sb.Append(detailmaterial);
-            sb.Append("\"");
-            sb.AppendLine("\t\"detailvbsp\"\t\"");
-            sb.Append(detailvbsp);
-            sb.Append("\"");
-            sb.AppendLine("\t\"maxpropscreenwidth\"\t\"");
-            sb.Append(maxpropscreenwidth.ToString());
-            sb.Append("\"");
-            sb.AppendLine("\t\"musicpostfix\"\t\"");
-            sb.Append(musicpostfix);
-            sb.Append("\"");
-            sb.AppendLine("\t\"skyname\"\t\"");
-            sb.Append(skyname);
-            sb.Append("\"");
-            if (solid != null || solid.Count > 0)
-            { 
+            StringBuilder sb = new StringBuilder();
+            Helpers.AppendTextRow(ref tier, ref sb, "world");
+            Helpers.AppendTextRow(ref tier, ref sb, "{");
+            tier++;
+            Helpers.AppendTextRow(ref tier, ref sb, "id", id.ToString());
+            Helpers.AppendTextRow(ref tier, ref sb, "mapversion", mapversion);
+            Helpers.AppendTextRow(ref tier, ref sb, "classname", classname);
+            Helpers.AppendTextRow(ref tier, ref sb, "detailmaterial", detailmaterial);
+            Helpers.AppendTextRow(ref tier, ref sb, "detailvbsp", detailvbsp);
+            Helpers.AppendTextRow(ref tier, ref sb, "maxpropscreenwidth", maxpropscreenwidth.ToString());
+            Helpers.AppendTextRow(ref tier, ref sb, "musicpostfix", musicpostfix);
+            Helpers.AppendTextRow(ref tier, ref sb, "skyname", skyname);
+            if (solid != null && solid.Count > 0)
+            {
                 foreach (solid s in solid)
                 {
-                    sb.AppendLine("\tsolid");
-                    sb.AppendLine(s.Serialize());
+                    sb.Append(s.Serialize(ref tier));
                 }
             }
-            if (group != null || group.Count > 0)
+            if (group != null && group.Count > 0)
             { 
                 foreach (group g in group)
                 {
-                    sb.AppendLine("\tgroup");
-                    sb.AppendLine(g.Serialize());
+                    sb.Append(g.Serialize(ref tier));
                 }
             }
-            if (hidden != null || hidden.Count > 0)
+            if (hidden != null && hidden.Count > 0)
             { 
                 foreach (hidden h in hidden)
                 {
-                    sb.AppendLine("\thidden");
-                    sb.AppendLine(h.Serialize());
+                    sb.Append(h.Serialize(ref tier));
                 }
             }
-
-            sb.AppendLine("}");
+            tier--;
+            Helpers.AppendTextRow(ref tier, ref sb, "}");
             return sb.ToString();
         }
     }

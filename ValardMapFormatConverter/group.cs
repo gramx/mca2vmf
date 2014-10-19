@@ -16,23 +16,22 @@ namespace ValardMapFormatConverter
 
         }
 
-        public string Serialize()
+        public string Serialize(ref int tier)
         {
-            StringBuilder sb = new StringBuilder("{");
-
-            sb.AppendLine("\t\"id\"\t\"");
-            sb.Append(id.ToString());
-            sb.Append("\"");
-            if (editor != null || editor.Count > 0)
+            StringBuilder sb = new StringBuilder();
+            Helpers.AppendTextRow(ref tier, ref sb, "group");
+            Helpers.AppendTextRow(ref tier, ref sb, "{");
+            tier++;
+            Helpers.AppendTextRow(ref tier, ref sb, "id", id.ToString());
+            if (editor != null && editor.Count > 0)
             {
                 foreach (editor e in editor)
                 {
-                    sb.AppendLine("\teditor");
-                    sb.AppendLine(e.Serialize());
+                    sb.Append(e.Serialize(ref tier));
                 }
             }
-
-            sb.AppendLine("}");
+            tier--;
+            Helpers.AppendTextRow(ref tier, ref sb, "}");
             return sb.ToString();
         }
     }

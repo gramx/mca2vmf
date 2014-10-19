@@ -27,27 +27,17 @@ namespace ValardMapFormatConverter
 
         }
 
-        public string Serialize()
+        public string Serialize(ref int tier)
         {
-            StringBuilder sb = new StringBuilder("{");
-
-            sb.AppendLine("\t\"power\"\t\"");
-            sb.Append(power.ToString());
-            sb.Append("\"");
-            sb.AppendLine("\t\"startposition\"\t\"");
-            sb.Append(startposition.Serialize());
-            sb.Append("\"");
-            sb.AppendLine("\t\"elevation\"\t\"");
-            sb.Append(elevation.ToString("F"));
-            sb.Append("\"");
-            if (subdiv)
-            {
-                sb.AppendLine("\t\"subdiv\"\t\"1\"");
-            }
-            else
-            {
-                sb.AppendLine("\t\"subdiv\"\t\"0\"");
-            }
+            StringBuilder sb = new StringBuilder("");
+            Helpers.AppendTextRow(ref tier, ref sb, "dispinfo");
+            Helpers.AppendTextRow(ref tier, ref sb, "{");
+            tier++;
+            Helpers.AppendTextRow(ref tier, ref sb, "power", power.ToString());
+            Helpers.AppendTextRow(ref tier, ref sb, "startposition", startposition.Serialize(ref tier));
+            Helpers.AppendTextRow(ref tier, ref sb, "elevation", elevation.ToString("F"));
+            Helpers.AppendBoolianRow(ref tier, ref sb, "subdiv", subdiv);
+            
             //normals{}
             //distances{}
             //offsets{}
@@ -55,7 +45,8 @@ namespace ValardMapFormatConverter
             //alphas{}
             //triangle_tags{}
             //allowed_verts{}
-            sb.AppendLine("}");
+            tier--;
+            Helpers.AppendTextRow(ref tier, ref sb, "}");
             return sb.ToString();
         }
     }

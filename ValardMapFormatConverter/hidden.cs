@@ -16,28 +16,28 @@ namespace ValardMapFormatConverter
 
         }
 
-        public string Serialize()
+        public string Serialize(ref int tier)
         {
-            StringBuilder sb = new StringBuilder("{");
-
-            if (solid != null || solid.Count > 0)
+            StringBuilder sb = new StringBuilder();
+            Helpers.AppendTextRow(ref tier, ref sb, "world");
+            Helpers.AppendTextRow(ref tier, ref sb, "{");
+            tier++;
+            if (solid != null && solid.Count > 0)
             {
                 foreach (solid s in solid)
                 {
-                    sb.AppendLine("\tsolid");
-                    sb.AppendLine(s.Serialize());
+                    sb.Append(s.Serialize(ref tier));
                 }
             }
-            if (entity != null || entity.Count > 0)
+            if (entity != null && entity.Count > 0)
             {
                 foreach (entity e in entity)
                 {
-                    sb.AppendLine("\tentity");
-                    sb.AppendLine(e.Serialize());
+                    sb.Append(e.Serialize(ref tier));
                 }
             }
-
-            sb.AppendLine("}");
+            tier--;
+            Helpers.AppendTextRow(ref tier, ref sb, "}");
             return sb.ToString();
         }
     }

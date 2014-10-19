@@ -17,28 +17,23 @@ namespace ValardMapFormatConverter
 
         }
 
-        public string Serialize()
+        public string Serialize(ref int tier)
         {
-            StringBuilder sb = new StringBuilder("{");
+            StringBuilder sb = new StringBuilder("");
+            Helpers.AppendTextRow(ref tier, ref sb, "visgroups");
+            Helpers.AppendTextRow(ref tier, ref sb, "{");
+            tier++;
             if (name != null)
             {
-                sb.AppendLine("\t\"name\"\t\"");
-                sb.Append(name);
-                sb.Append("\"");
+                Helpers.AppendTextRow(ref tier, ref sb, "name", name);
             }
-            if (visgroupid != null)
-            {
-                sb.AppendLine("\t\"visgroupid\"\t\"");
-                sb.Append(visgroupid.ToString());
-                sb.Append("\"");
-            }
+            Helpers.AppendTextRow(ref tier, ref sb, "visgroupid", visgroupid.ToString());
             if (color != null)
             {
-                sb.AppendLine("\t\"color\"\t\"");
-                sb.Append(color.Serialize());
-                sb.Append("\"");
+                Helpers.AppendTextRow(ref tier, ref sb, "color", color.Serialize(ref tier));
             }
-            sb.AppendLine("}");
+            tier--;
+            Helpers.AppendTextRow(ref tier, ref sb, "}");
             return sb.ToString();
         }
     }

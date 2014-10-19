@@ -48,6 +48,7 @@
     <Compile Include="editor.cs" />
     <Compile Include="entity.cs" />
     <Compile Include="group.cs" />
+    <Compile Include="Helpers.cs" />
     <Compile Include="hidden.cs" />
     <Compile Include="plane.cs" />
     <Compile Include="rbg.cs" />

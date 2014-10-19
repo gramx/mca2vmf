@@ -24,30 +24,19 @@ namespace ValardMapFormatConverter
             prefab = false;
         }
 
-        public string Serialize()
+        public string Serialize(ref int tier)
         {
-            StringBuilder sb = new StringBuilder("{");
-            sb.AppendLine("\t\"editorversion\"\t\"");
-            sb.Append(editorversion.ToString());
-            sb.Append("\"");
-            sb.AppendLine("\t\"editorbuild\"\t\"");
-            sb.Append(editorbuild.ToString());
-            sb.Append("\"");
-            sb.AppendLine("\t\"mapversion\"\t\"");
-            sb.Append(mapversion.ToString());
-            sb.Append("\"");
-            sb.AppendLine("\t\"formatversion\"\t\"");
-            sb.Append(formatversion.ToString());
-            sb.Append("\"");
-            if (prefab)
-            {
-                sb.AppendLine("\t\"prefab\"\t\"1\"");
-            }
-            else
-            {
-                sb.AppendLine("\t\"prefab\"\t\"0\"");
-            }
-            sb.AppendLine("}");
+            StringBuilder sb = new StringBuilder("");
+            Helpers.AppendTextRow(ref tier, ref sb, "versioninfo");
+            Helpers.AppendTextRow(ref tier, ref sb, "{");
+            tier++;
+            Helpers.AppendTextRow(ref tier, ref sb, "editorversion", editorversion.ToString());
+            Helpers.AppendTextRow(ref tier, ref sb, "editorbuild", editorbuild.ToString());
+            Helpers.AppendTextRow(ref tier, ref sb, "mapversion", mapversion.ToString());
+            Helpers.AppendTextRow(ref tier, ref sb, "formatversion", formatversion.ToString());
+            Helpers.AppendBoolianRow(ref tier, ref sb, "prefab", prefab);
+            tier--;
+            Helpers.AppendTextRow(ref tier, ref sb, "}");
             return sb.ToString();
         }
     }

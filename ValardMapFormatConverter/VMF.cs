@@ -16,6 +16,12 @@ namespace ValardMapFormatConverter
         public cameras cameras;
         public cordons cordons;
 
+        /// <summary>
+        /// Creates a classes that are used in VMF
+        /// </summary>
+        /// <remarks>
+        /// TODO: dispinfo sub classes are missing
+        /// </remarks>
         public VMF()
         {
             versioninfo = new versioninfo();
@@ -26,26 +32,20 @@ namespace ValardMapFormatConverter
             cordons = new cordons();
         }
 
-        public string Serialize()
+        public StringBuilder Serialize()
         {
-            StringBuilder sb = new StringBuilder("{");
-            sb.AppendLine("\tversioninfo");
-            sb.AppendLine(versioninfo.Serialize());
-            sb.AppendLine("\tvisgroups");
-            sb.AppendLine(visgroups.Serialize());
-            sb.AppendLine("\tviewsettings");
-            sb.AppendLine(viewsettings.Serialize());
-            sb.AppendLine("\tworld");
-            sb.AppendLine(world.Serialize());
+            int tier = 0;
+            StringBuilder sb = new StringBuilder();
+            sb.Append(versioninfo.Serialize(ref tier));
+            sb.Append(visgroups.Serialize(ref tier));
+            sb.Append(viewsettings.Serialize(ref tier));
+            sb.Append(world.Serialize(ref tier));
             if (cameras != null)
             {
-                sb.AppendLine("\tcameras");
-                sb.AppendLine(cameras.Serialize());
+                sb.Append(cameras.Serialize(ref tier));
             }
-            sb.AppendLine("\tcordons");
-            sb.AppendLine(cordons.Serialize());
-            sb.AppendLine("}");
-            return sb.ToString();
+            sb.Append(cordons.Serialize(ref tier));
+            return sb;
         }
     }
     

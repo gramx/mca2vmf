@@ -20,15 +20,15 @@ namespace ValardMapFormatConverter
             vertex = Vertex;
         }
 
-        public string Serialize()
+        public string Serialize(ref int tier)
         {
             StringBuilder sb = new StringBuilder("");
-            if (vertex != null || vertex.Count > 0)
+            if (vertex != null && vertex.Count > 0)
             {
                 foreach (vertex v in vertex)
                 {
                     sb.Append("(");
-                    sb.Append(v.Serialize());
+                    sb.Append(v.Serialize(ref tier));
                     sb.Append(") ");
                 }
                 sb.Remove(sb.Length - 1, 1);

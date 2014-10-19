@@ -87,15 +87,23 @@ namespace mca2vmfExample
                 Environment.Exit(0);
             }
             Console.WriteLine("Minecraft files loaded.");
-            Console.WriteLine("Minecraft files trimming...");
-            if (!ConvertFile.TrimWorld(xStart, zStart, xEnd, zEnd, yTop, yBottom))
-            {
-                Console.WriteLine("Unknowen error trimming minecraft files.");
-                Console.ReadLine();
-                Environment.Exit(0);
-            }
-            Console.WriteLine("Minecraft files trimed.");
-            Console.ReadLine();
+            //Console.WriteLine("Minecraft files trimming...");
+            //if (!ConvertFile.TrimWorld(xStart, zStart, xEnd, zEnd, yTop, yBottom))
+            //{
+            //    Console.WriteLine("Unknowen error trimming minecraft files.");
+            //    Console.ReadLine();
+            //    Environment.Exit(0);
+            //}
+            //Console.WriteLine("Minecraft files trimed.");
+            //Console.ReadLine();
+            //Test VMF generation
+            Console.WriteLine("Testing VMF text generation...");
+            StringBuilder testingText = ConvertFile.TestVMFGeneration();
+            Console.WriteLine(testingText.ToString());
+            Console.WriteLine("Saving File...");
+            ConvertFile.TestVMFGeneration(testingText, args[1]);
+            Console.WriteLine("...");
+            //Console.ReadLine();
         }
 
         private static void HelpText(string[] args)

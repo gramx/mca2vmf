@@ -48,6 +48,10 @@
       <Project>{7264a1c4-ab4a-4437-b252-7379b98b5509}</Project>
       <Name>Substrate %28NET4%29</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ValardMapFormatConverter\ValardMapFormatConverter.csproj">
+      <Project>{8c24935b-914b-485a-80f3-5627f38a8c97}</Project>
+      <Name>ValardMapFormatConverter</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

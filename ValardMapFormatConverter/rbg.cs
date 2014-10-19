@@ -26,7 +26,7 @@ namespace ValardMapFormatConverter
             green = Green;
         }
 
-        public string Serialize()
+        public string Serialize(ref int tier)
         {
             StringBuilder sb = new StringBuilder(red.ToString());
             sb.Append(" ");

@@ -22,16 +22,16 @@ namespace ValardMapFormatConverter
             look = Look;
         }
 
-        public string Serialize()
+        public string Serialize(ref int tier)
         {
-            StringBuilder sb = new StringBuilder("{");
-            sb.AppendLine("\t\"position\"\t\"");
-            sb.Append(position.Serialize());
-            sb.Append("\"");
-            sb.AppendLine("\t\"look\"\t\"");
-            sb.Append(look.Serialize());
-            sb.Append("\"");
-            sb.AppendLine("}");
+            StringBuilder sb = new StringBuilder();
+            Helpers.AppendTextRow(ref tier, ref sb, "camera");
+            Helpers.AppendTextRow(ref tier, ref sb, "{");
+            tier++;
+            Helpers.AppendTextRow(ref tier, ref sb, "position", position.Serialize(ref tier));
+            Helpers.AppendTextRow(ref tier, ref sb, "look", look.Serialize(ref tier));
+            tier--;
+            Helpers.AppendTextRow(ref tier, ref sb, "}");
             return sb.ToString();
         }
     }

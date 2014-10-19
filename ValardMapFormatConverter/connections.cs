@@ -8,26 +8,37 @@ namespace ValardMapFormatConverter
 {
     public class connections
     {
-        public List<string> OnTrigger;
+        public List<List<string>> OnTrigger;
 
+        /// <summary>
+        /// Connections object
+        /// </summary>
+        /// <remarks>
+        /// NOTE: I still dont understand how exactly this works
+        /// </remarks>
         public connections()
         {
 
         }
 
-        public string Serialize()
+        public string Serialize(ref int tier)
         {
-            StringBuilder sb = new StringBuilder("{");
-            if (OnTrigger != null || OnTrigger.Count > 0)
+            StringBuilder sb = new StringBuilder();
+            Helpers.AppendTextRow(ref tier, ref sb, "connections");
+            Helpers.AppendTextRow(ref tier, ref sb, "{");
+            tier++;
+            if (OnTrigger != null && OnTrigger.Count > 0)
             {
-                //foreach (string s in OnTrigger)
-                //{
-                sb.AppendLine("\t\"OnTrigger\"\t\"");
-                sb.Append(String.Join(",", OnTrigger));
-                sb.Append("\"");
-                //}
+                foreach (List<string> s in OnTrigger)
+                {
+                    if (s != null && s.Count > 0)
+                    {
+                        Helpers.AppendTextRow(ref tier, ref sb, "OnTrigger", String.Join(",", s));
+                    }
+                }
             }
-            sb.AppendLine("}");
+            tier--;
+            Helpers.AppendTextRow(ref tier, ref sb, "}");
             return sb.ToString();
         }
     }

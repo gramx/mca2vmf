@@ -26,7 +26,7 @@ namespace ValardMapFormatConverter
             z = Z;
         }
 
-        public string Serialize()
+        public string Serialize(ref int tier)
         {
             StringBuilder sb = new StringBuilder(x.ToString("F"));
             sb.Append(" ");

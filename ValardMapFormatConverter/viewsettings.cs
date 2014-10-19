@@ -23,45 +23,19 @@ namespace ValardMapFormatConverter
             bShow3DGrid = false;
         }
 
-        public string Serialize()
+        public string Serialize(ref int tier)
         {
-            StringBuilder sb = new StringBuilder("{");
-            if (bSnapToGrid)
-            {
-                sb.AppendLine("\t\"bSnapToGrid\"\t\"1\"");
-            }
-            else
-            {
-                sb.AppendLine("\t\"bSnapToGrid\"\t\"0\"");
-            }
-            if (bShowGrid)
-            {
-                sb.AppendLine("\t\"bShowGrid\"\t\"1\"");
-            }
-            else
-            {
-                sb.AppendLine("\t\"bShowGrid\"\t\"0\"");
-            }
-            if (bShowLogicalGrid)
-            {
-                sb.AppendLine("\t\"bShowLogicalGrid\"\t\"1\"");
-            }
-            else
-            {
-                sb.AppendLine("\t\"bShowLogicalGrid\"\t\"0\"");
-            }
-            sb.AppendLine("\t\"nGridSpacing\"\t\"");
-            sb.Append(nGridSpacing.ToString());
-            sb.Append("\"");
-            if (bShow3DGrid)
-            {
-                sb.AppendLine("\t\"bShow3DGrid\"\t\"1\"");
-            }
-            else
-            {
-                sb.AppendLine("\t\"bShow3DGrid\"\t\"0\"");
-            }
-            sb.AppendLine("}");
+            StringBuilder sb = new StringBuilder("");
+            Helpers.AppendTextRow(ref tier, ref sb, "viewsettings");
+            Helpers.AppendTextRow(ref tier, ref sb, "{");
+            tier++;
+            Helpers.AppendBoolianRow(ref tier, ref sb, "bSnapToGrid", bSnapToGrid);
+            Helpers.AppendBoolianRow(ref tier, ref sb, "bShowGrid", bShowGrid);
+            Helpers.AppendBoolianRow(ref tier, ref sb, "bShowLogicalGrid", bShowLogicalGrid);
+            Helpers.AppendTextRow(ref tier, ref sb, "nGridSpacing", nGridSpacing.ToString());
+            Helpers.AppendBoolianRow(ref tier, ref sb, "bShow3DGrid", bShow3DGrid);
+            tier--;
+            Helpers.AppendTextRow(ref tier, ref sb, "}");
             return sb.ToString();
         }
     }

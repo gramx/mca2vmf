@@ -20,39 +20,20 @@ namespace ValardMapFormatConverter
 
         }
 
-        public string Serialize()
+        public string Serialize(ref int tier)
         {
-            StringBuilder sb = new StringBuilder("{");
-
-            sb.AppendLine("\t\"color\"\t\"");
-            sb.Append(color.Serialize());
-            sb.Append("\"");
-            sb.AppendLine("\t\"visgroupid\"\t\"");
-            sb.Append(visgroupid.ToString());
-            sb.Append("\"");
-            sb.AppendLine("\t\"groupid\"\t\"");
-            sb.Append(groupid.ToString());
-            sb.Append("\"");
-            if (visgroupshown)
-            {
-                sb.AppendLine("\t\"visgroupshown\"\t\"1\"");
-            }
-            else
-            {
-                sb.AppendLine("\t\"visgroupshown\"\t\"0\"");
-            }
-            if (visgroupsutoshown)
-            {
-                sb.AppendLine("\t\"visgroupsutoshown\"\t\"1\"");
-            }
-            else
-            {
-                sb.AppendLine("\t\"visgroupsutoshown\"\t\"0\"");
-            }
-            sb.AppendLine("\t\"comments\"\t\"");
-            sb.Append(comments);
-            sb.Append("\"");
-            sb.AppendLine("}");
+            StringBuilder sb = new StringBuilder("");
+            Helpers.AppendTextRow(ref tier, ref sb, "editor");
+            Helpers.AppendTextRow(ref tier, ref sb, "{");
+            tier++;
+            Helpers.AppendTextRow(ref tier, ref sb, "color", color.Serialize(ref tier));
+            Helpers.AppendTextRow(ref tier, ref sb, "visgroupid", visgroupid.ToString());
+            Helpers.AppendTextRow(ref tier, ref sb, "groupid", groupid.ToString());
+            Helpers.AppendBoolianRow(ref tier, ref sb, "visgroupshown", visgroupshown);
+            Helpers.AppendBoolianRow(ref tier, ref sb, "visgroupsutoshown", visgroupsutoshown);
+            Helpers.AppendTextRow(ref tier, ref sb, "comments", comments);
+            tier--;
+            Helpers.AppendTextRow(ref tier, ref sb, "}");
             return sb.ToString();
         }
     }

@@ -22,58 +22,48 @@ namespace ValardMapFormatConverter
 
         }
 
-        public string Serialize()
+        public string Serialize(ref int tier)
         {
-            StringBuilder sb = new StringBuilder("{");
-
-            sb.AppendLine("\t\"id\"\t\"");
-            sb.Append(id.ToString());
-            sb.Append("\"");
-            sb.AppendLine("\t\"classname\"\t\"");
-            sb.Append(classname);
-            sb.Append("\"");
-            sb.AppendLine("\t\"spawnflags\"\t\"");
-            sb.Append(spawnflags.ToString());
-            sb.Append("\"");
+            StringBuilder sb = new StringBuilder();
+            Helpers.AppendTextRow(ref tier, ref sb, "world");
+            Helpers.AppendTextRow(ref tier, ref sb, "{");
+            tier++;
+            Helpers.AppendTextRow(ref tier, ref sb, "id", id.ToString());
+            Helpers.AppendTextRow(ref tier, ref sb, "classname", classname);
+            Helpers.AppendTextRow(ref tier, ref sb, "spawnflags", spawnflags.ToString());
             if (connections != null || connections.Count > 0)
             {
                 foreach (connections c in connections)
                 {
                     sb.AppendLine("\tconnections");
-                    sb.AppendLine(c.Serialize());
+                    sb.AppendLine(c.Serialize(ref tier));
                 }
             }
-            if (solid != null || solid.Count > 0)
+            if (solid != null && solid.Count > 0)
             {
                 foreach (solid s in solid)
                 {
-                    sb.AppendLine("\tsolid");
-                    sb.AppendLine(s.Serialize());
+                    sb.Append(s.Serialize(ref tier));
                 }
             }
-            if (hidden != null || hidden.Count > 0)
+            if (hidden != null && hidden.Count > 0)
             {
                 foreach (hidden h in hidden)
                 {
-                    sb.AppendLine("\thidden");
-                    sb.AppendLine(h.Serialize());
+                    sb.Append(h.Serialize(ref tier));
                 }
             }
             if (origin != null)
             {
-                sb.AppendLine("\t\"origin\"\t\"");
-                sb.Append(origin.Serialize());
-                sb.Append("\"");
+                Helpers.AppendTextRow(ref tier, ref sb, "origin", origin.Serialize(ref tier));
             }
-            if (editor != null || editor.Count > 0)
+            if (editor != null && editor.Count > 0)
             {
                 foreach (editor e in editor)
                 {
-                    sb.AppendLine("\teditor");
-                    sb.AppendLine(e.Serialize());
+                    sb.Append(e.Serialize(ref tier));
                 }
             }
-
             sb.AppendLine("}");
             return sb.ToString();
         }

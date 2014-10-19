@@ -30,43 +30,29 @@ namespace ValardMapFormatConverter
             smoothing_groups = 0;
         }
 
-        public string Serialize()
+        public string Serialize(ref int tier)
         {
-            StringBuilder sb = new StringBuilder("{");
-
-            sb.AppendLine("\t\"id\"\t\"");
-            sb.Append(id.ToString());
-            sb.Append("\"");
+            StringBuilder sb = new StringBuilder("");
+            Helpers.AppendTextRow(ref tier, ref sb, "side");
+            Helpers.AppendTextRow(ref tier, ref sb, "{");
+            tier++;
+            Helpers.AppendTextRow(ref tier, ref sb, "id", id.ToString());
             if (plane != null)
             {
-                sb.AppendLine("\t\"plane\"\t\"");
-                sb.Append(plane.Serialize());
-                sb.Append("\"");
+                Helpers.AppendTextRow(ref tier, ref sb, "plane", plane.Serialize(ref tier));
             }
-            sb.AppendLine("\t\"material\"\t\"");
-            sb.Append(material);
-            sb.Append("\"");
-            sb.AppendLine("\t\"uaxis\"\t\"");
-            sb.Append(uaxis.Serialize());
-            sb.Append("\"");
-            sb.AppendLine("\t\"vaxis\"\t\"");
-            sb.Append(vaxis.Serialize());
-            sb.Append("\"");
-            sb.AppendLine("\t\"rotation\"\t\"");
-            sb.Append(rotation.ToString("F"));
-            sb.Append("\"");
-            sb.AppendLine("\t\"lightmapscale\"\t\"");
-            sb.Append(lightmapscale.ToString());
-            sb.Append("\"");
-            sb.AppendLine("\t\"smoothing_groups\"\t\"");
-            sb.Append(smoothing_groups.ToString());
-            sb.Append("\"");
+            Helpers.AppendTextRow(ref tier, ref sb, "material", material);
+            Helpers.AppendTextRow(ref tier, ref sb, "uaxis", uaxis.Serialize(ref tier));
+            Helpers.AppendTextRow(ref tier, ref sb, "vaxis", vaxis.Serialize(ref tier));
+            Helpers.AppendTextRow(ref tier, ref sb, "rotation", rotation.ToString("F"));
+            Helpers.AppendTextRow(ref tier, ref sb, "lightmapscale", lightmapscale.ToString());
+            Helpers.AppendTextRow(ref tier, ref sb, "smoothing_groups", smoothing_groups.ToString());
             if (dispinfo != null)
             {
-                sb.AppendLine("\tdispinfo");
-                sb.AppendLine(dispinfo.Serialize());
+                sb.Append(dispinfo.Serialize(ref tier));
             }
-            sb.AppendLine("}");
+            tier--;
+            Helpers.AppendTextRow(ref tier, ref sb, "}");
             return sb.ToString();
         }
     }

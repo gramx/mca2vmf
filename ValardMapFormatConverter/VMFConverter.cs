@@ -9,6 +9,11 @@ namespace ValardMapFormatConverter
 {
     public static class VMFConverter
     {
+        public static VMF SetupBasicVFM()
+        {
+            return SetupBasicVFM(new VMF());
+        }
+
         public static VMF SetupBasicVFM(VMF vfm)
         {
             //versioninfo
@@ -53,7 +58,7 @@ namespace ValardMapFormatConverter
             return vfm;
         }
 
-        public static string SerializeVFM(VMF vmf)
+        public static StringBuilder SerializeVFM(VMF vmf)
         {
             //TODO simple check if valid file
 

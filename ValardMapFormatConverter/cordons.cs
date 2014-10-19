@@ -15,18 +15,15 @@ namespace ValardMapFormatConverter
             active = false;
         }
 
-        public string Serialize()
+        public string Serialize(ref int tier)
         {
-            StringBuilder sb = new StringBuilder("{");
-            if (active)
-            {
-                sb.AppendLine("\t\"active\"\t\"1\"");
-            }
-            else
-            {
-                sb.AppendLine("\t\"active\"\t\"0\"");
-            }
-            sb.AppendLine("}");
+            StringBuilder sb = new StringBuilder("");
+            Helpers.AppendTextRow(ref tier, ref sb, "cordons");
+            Helpers.AppendTextRow(ref tier, ref sb, "{");
+            tier++;
+            Helpers.AppendBoolianRow(ref tier, ref sb, "active", active);
+            tier--;
+            Helpers.AppendTextRow(ref tier, ref sb, "}");
             return sb.ToString();
         }
     }

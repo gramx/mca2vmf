@@ -17,26 +17,22 @@ namespace ValardMapFormatConverter
             camera = new List<camera>();
         }
 
-        public string Serialize()
+        public string Serialize(ref int tier)
         {
-            StringBuilder sb = new StringBuilder("{");
-            if (activecamera)
-            {
-                sb.AppendLine("\t\"activecamera\"\t\"1\"");
-            }
-            else
-            {
-                sb.AppendLine("\t\"activecamera\"\t\"0\"");
-            }
-            if (camera != null || camera.Count > 0)
+            StringBuilder sb = new StringBuilder("");
+            Helpers.AppendTextRow(ref tier, ref sb, "cameras");
+            Helpers.AppendTextRow(ref tier, ref sb, "{");
+            tier++;
+            Helpers.AppendBoolianRow(ref tier, ref sb, "activecamera", activecamera);
+            if (camera != null && camera.Count > 0)
             {
                 foreach (camera c in camera)
                 {
-                    sb.AppendLine("\tcamera");
-                    sb.AppendLine(c.Serialize());
+                    sb.Append(c.Serialize(ref tier));
                 }
             }
-            sb.AppendLine("}");
+            tier--;
+            Helpers.AppendTextRow(ref tier, ref sb, "}");
             return sb.ToString();
         }
 
