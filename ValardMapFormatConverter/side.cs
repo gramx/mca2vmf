@@ -18,7 +18,7 @@ namespace ValardMapFormatConverter
         public int smoothing_groups;
         public dispinfo dispinfo;
 
-        public side()
+        private void initializeProperties()
         {
             id = 0;
             plane = new plane();
@@ -28,6 +28,45 @@ namespace ValardMapFormatConverter
             rotation = 0;
             lightmapscale = 0;
             smoothing_groups = 0;
+        }
+
+        public side()
+        {
+            initializeProperties();
+        }
+
+        public side(int x, int y, int z, Nullable<bool> dimension, int ID, string Material, int offset)
+        {
+            lightmapscale = offset;
+            rotation = 0;
+            smoothing_groups = 0;
+            id = ID;
+            material = Material;
+            plane = new plane();
+            if (!dimension.HasValue)
+            {
+                plane.vertex.Add(new vertex(x, y, z));
+                plane.vertex.Add(new vertex(x, y, z + offset));
+                plane.vertex.Add(new vertex(x + offset, y, z));
+                uaxis = new axis(1, 0, 0, 0);
+                vaxis = new axis(0, -1, 0, 0);
+            }
+            else if (dimension.Value)
+            {
+                plane.vertex.Add(new vertex(x, y, z));
+                plane.vertex.Add(new vertex(x, y, z + offset));
+                plane.vertex.Add(new vertex(x, y + offset, z));
+                uaxis = new axis(0, 1, 0, 0);
+                vaxis = new axis(0, 0, -1, 0);
+            }
+            else
+            {
+                plane.vertex.Add(new vertex(x, y, z));
+                plane.vertex.Add(new vertex(x + offset, y, z));
+                plane.vertex.Add(new vertex(x, y + offset, z));
+                uaxis = new axis(1, 0, 0, 0);
+                vaxis = new axis(0, 0, -1, 0);
+            }
         }
 
         public string Serialize(ref int tier)

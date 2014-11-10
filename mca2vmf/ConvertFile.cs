@@ -17,6 +17,7 @@ namespace mca2vmf
     {
         private static NbtWorld importedWorld;
         private static List<SimpleChunkRef> TrimedChunks;
+        private static int globalScale = 16;
         private static int xOffset = 0;
         private static int yOffset = 0;
         private static int zOffset = 0;
@@ -26,6 +27,8 @@ namespace mca2vmf
         private static int xEnd = 0;
         private static int yBottom = 0;
         private static int zEnd = 0;
+        private static Voxset idIndex = null;
+        private static VMF valveMapFile = null;
 
         /// <summary>
         /// Setup the bounds of the world
@@ -38,6 +41,9 @@ namespace mca2vmf
         /// <param name="BottomY"></param>
         public static void SetWorldBounds(int StartX, int StartZ, int EndX, int EndZ, int TopY, int BottomY)
         {
+            //Start VMF shell file
+            valveMapFile = ValardMapFormatConverter.VMFConverter.SetupBasicVFM();
+            
             //Start should be smaller
             if (StartX > EndX)
             {
@@ -244,14 +250,13 @@ namespace mca2vmf
         public static bool BuildIdIndex()
         {
             // Build quick ID ref index array (map grid to closer to zero numbers)
-            Voxset vs = new Voxset(xEnd + xOffset, yTop + yOffset, zEnd + zOffset);
+            idIndex = new Voxset(xEnd + xOffset, yTop + yOffset, zEnd + zOffset);
 
             // The chunk manager is more efficient than the block manager for
             // this purpose, since we'll inspect every block
             IChunkManager cm = importedWorld.GetChunkManager();
 
             foreach (ChunkRef chunk in cm)
-            
             {
                 // You could hardcode your dimensions, but maybe some day they
                 // won't always be 16.  Also the CLR is a bit stupid and has
@@ -273,7 +278,7 @@ namespace mca2vmf
                         for (int y = 0; y < ydim; y++)
                         {
                             BlockInfo info = chunk.Blocks.GetInfo(x, y, z);
-                            vs.IdArray[x + xOffset, y + yOffset, z + zOffset] = info.ID;
+                            idIndex.IdArray[x + xOffset, y + yOffset, z + zOffset] = info.ID;
                         }
                     }
                 }
@@ -283,14 +288,40 @@ namespace mca2vmf
         }
 
         /// <summary>
+        /// Creates boxes with IdIndex (testing with just sky or not)
+        /// </summary>
+        public static void GenerateTestBoxSet()
+        {
+            List<solid> solids = new List<solid>();
+            int currentID = 0;
+
+            //Loop though list and make boxes if the ID is > 0 (not sky)
+            for (int x = 0; x < idIndex.IdArray.GetLength(0); x++)
+            {
+                for (int z = 0; z < idIndex.IdArray.GetLength(2); z++)
+                {
+                    for (int y = 0; y < idIndex.IdArray.GetLength(1); y++)
+                    {
+                        currentID++;
+                        if (idIndex.IdArray[x, y, z] > 0)
+                        {
+                            solids.Add(VMFConverter.createBoxAt(x, y, z, ref globalScale, currentID));
+                        }
+                    }
+                }
+            }
+
+            //Add test boxes to map file
+            valveMapFile.world.solid.AddRange(solids);
+        }
+
+        /// <summary>
         /// Test VMF text generation.
         /// </summary>
         /// <returns>The serialized VFM text</returns>
         public static StringBuilder TestVMFGeneration()
         {
-            VMF testVMF = ValardMapFormatConverter.VMFConverter.SetupBasicVFM();
-
-            return testVMF.Serialize();
+            return valveMapFile.Serialize();
         }
 
         /// <summary>

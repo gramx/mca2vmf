@@ -90,7 +90,7 @@ namespace mca2vmfExample
             else
             {
                 Console.WriteLine("Minecraft files loaded. Setting Bounds...");
-                ConvertFile.SetWorldBounds(xStart, zStart, xEnd, zEnd, yTop, yBottom);
+                ConvertFile.SetWorldBounds(xStart * 16, zStart * 16, xEnd * 16, zEnd * 16, yTop, yBottom);
                 Console.WriteLine("Bounds set. Building quick Ref ID Index...");
                 Stopwatch s1 = Stopwatch.StartNew();
                 ConvertFile.BuildIdIndex();
@@ -106,6 +106,13 @@ namespace mca2vmfExample
             //}
             //Console.WriteLine("Minecraft files trimed.");
             Console.ReadLine();
+            //Test Create Boxes
+            Stopwatch s2 = Stopwatch.StartNew();
+            ConvertFile.GenerateTestBoxSet();
+            s2.Stop();
+            Console.WriteLine("Quick Ref ID Index built [{0}]", s2.Elapsed.ToString());
+            Console.ReadLine();
+
             //Test VMF generation
             Console.WriteLine("Testing VMF text generation...");
             StringBuilder testingText = ConvertFile.TestVMFGeneration();

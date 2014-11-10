@@ -65,6 +65,27 @@ namespace ValardMapFormatConverter
             return vmf.Serialize();
         }
 
+        public static solid createBoxAt(int x, int y, int z, ref int offset, int id)
+        {
+            solid result = new solid();
+
+            result.id = id.ToString();
+            result.editor = new editor();
+
+            result.side.Add(new side(x, y, z, null, 1, "DEV/DEV_MEASUREGENERIC01B", offset));
+            result.side.Add(new side(x, y, z, true, 1, "DEV/DEV_MEASUREGENERIC01", offset));
+            result.side.Add(new side(x, y, z, false, 1, "DEV/DEV_MEASUREGENERIC01", offset));
+            result.side.Add(new side(x, y, z, null, 1, "DEV/DEV_MEASUREGENERIC01B", offset * -1));
+            result.side.Add(new side(x, y, z, true, 1, "DEV/DEV_MEASUREGENERIC01", offset * -1));
+            result.side.Add(new side(x, y, z, false, 1, "DEV/DEV_MEASUREGENERIC01", offset * -1));
+            
+            return result;
+        }
+
+        public static string getTextureName(int blockID, Nullable<bool> dimension)
+        {
+            return "";
+        }
         //TODO
         //public static string DeserializeVFM(VMF vmf)
         //{

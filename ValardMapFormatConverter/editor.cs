@@ -17,7 +17,9 @@ namespace ValardMapFormatConverter
 
         public editor()
         {
-
+            color = new rbg(0, 202, 175);
+            visgroupshown = true;
+            visgroupsutoshown = true;
         }
 
         public string Serialize(ref int tier)
@@ -27,11 +29,20 @@ namespace ValardMapFormatConverter
             Helpers.AppendTextRow(ref tier, ref sb, "{");
             tier++;
             Helpers.AppendTextRow(ref tier, ref sb, "color", color.Serialize(ref tier));
-            Helpers.AppendTextRow(ref tier, ref sb, "visgroupid", visgroupid.ToString());
-            Helpers.AppendTextRow(ref tier, ref sb, "groupid", groupid.ToString());
+            if (visgroupid != null)
+            {
+                Helpers.AppendTextRow(ref tier, ref sb, "visgroupid", visgroupid.ToString());
+            }
+            if (groupid != null)
+            {
+                Helpers.AppendTextRow(ref tier, ref sb, "groupid", groupid.ToString());
+            }
             Helpers.AppendBoolianRow(ref tier, ref sb, "visgroupshown", visgroupshown);
             Helpers.AppendBoolianRow(ref tier, ref sb, "visgroupsutoshown", visgroupsutoshown);
-            Helpers.AppendTextRow(ref tier, ref sb, "comments", comments);
+            if (comments != null)
+            {
+                Helpers.AppendTextRow(ref tier, ref sb, "comments", comments);
+            }
             tier--;
             Helpers.AppendTextRow(ref tier, ref sb, "}");
             return sb.ToString();

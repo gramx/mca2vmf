@@ -14,7 +14,7 @@ namespace ValardMapFormatConverter
 
         public solid()
         {
-
+            side = new List<side>();
         }
 
         public string Serialize(ref int tier)

@@ -26,6 +26,13 @@ namespace ValardMapFormatConverter
             z = Z;
         }
 
+        public vertex(int X, int Y, int Z)
+        {
+            x = X;
+            y = Y;
+            z = Z;
+        }
+
         public string Serialize(ref int tier)
         {
             StringBuilder sb = new StringBuilder(x.ToString("F"));
