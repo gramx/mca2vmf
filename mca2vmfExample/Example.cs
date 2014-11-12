@@ -91,20 +91,24 @@ namespace mca2vmfExample
             {
                 Console.WriteLine("Minecraft files loaded. Setting Bounds...");
                 ConvertFile.SetWorldBounds(xStart * 16, zStart * 16, xEnd * 16, zEnd * 16, yTop, yBottom);
-                Console.WriteLine("Bounds set. Building quick Ref ID Index...");
-                Stopwatch s1 = Stopwatch.StartNew();
-                ConvertFile.BuildIdIndex();
-                s1.Stop();
-                Console.WriteLine("Quick Ref ID Index built [{0}]", s1.Elapsed.ToString());
+                Console.WriteLine("Bounds set.");
+                Console.WriteLine("Minecraft files trimming...");
+
+                Stopwatch s0 = Stopwatch.StartNew();
+                if (!ConvertFile.TrimWorld())
+                {
+                    Console.WriteLine("Unknowen error trimming minecraft files.");
+                    Console.ReadLine();
+                    Environment.Exit(0);
+                }
+                s0.Stop();
+                Console.WriteLine("Minecraft files trimed. [{0}]", s0.Elapsed.ToString());
             }
-            //Console.WriteLine("Minecraft files trimming...");
-            //if (!ConvertFile.TrimWorld())
-            //{
-            //    Console.WriteLine("Unknowen error trimming minecraft files.");
-            //    Console.ReadLine();
-            //    Environment.Exit(0);
-            //}
-            //Console.WriteLine("Minecraft files trimed.");
+            Console.WriteLine("Building quick Ref ID Index...");
+            Stopwatch s1 = Stopwatch.StartNew();
+            ConvertFile.BuildIdIndex();
+            s1.Stop();
+            Console.WriteLine("Quick Ref ID Index built [{0}]", s1.Elapsed.ToString());
             Console.ReadLine();
             //Test Create Boxes
             Console.WriteLine("Building VMF classes...");
@@ -117,7 +121,7 @@ namespace mca2vmfExample
             //Test VMF generation
             Console.WriteLine("Testing VMF text generation...");
             StringBuilder testingText = ConvertFile.TestVMFGeneration();
-            Console.WriteLine(testingText.ToString());
+            //Console.WriteLine(testingText.ToString());
             Console.WriteLine("Saving File...");
             ConvertFile.TestVMFGeneration(testingText, args[1]);
             Console.WriteLine("...");

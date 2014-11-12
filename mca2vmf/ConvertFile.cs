@@ -155,12 +155,12 @@ namespace mca2vmf
                     if(cm.ChunkExists(x,z))
                     {
                         IChunk chunk = cm.GetChunk(x, z);
-                        Console.WriteLine("Saving: xz[{0}{1},{2}{3}]", signX, Math.Abs(x).ToString("D3"), signZ, Math.Abs(z).ToString("D3"));
+                        //Console.WriteLine("Saving: xz[{0}{1},{2}{3}]", signX, Math.Abs(x).ToString("D3"), signZ, Math.Abs(z).ToString("D3"));
                         TrimedChunks.Add(new SimpleChunkRef(x, z, chunk));
                     }
                     else
                     {
-                        Console.WriteLine("No chunk found: xz[{0}{1},{2}{3}]", signX, Math.Abs(x).ToString("D3"), signZ, Math.Abs(z).ToString("D3"));
+                        //Console.WriteLine("No chunk found: xz[{0}{1},{2}{3}]", signX, Math.Abs(x).ToString("D3"), signZ, Math.Abs(z).ToString("D3"));
                         TrimedChunks.Add(new SimpleChunkRef(x, z, null));
                     }
                 }
@@ -252,23 +252,16 @@ namespace mca2vmf
             // Build quick ID ref index array (map grid to closer to zero numbers)
             idIndex = new Voxset(xEnd + xOffset, zEnd + zOffset, yTop + yOffset);
 
-            // The chunk manager is more efficient than the block manager for
-            // this purpose, since we'll inspect every block
-            IChunkManager cm = importedWorld.GetChunkManager();
-
-
-            foreach (ChunkRef chunk in cm)
+            foreach (SimpleChunkRef chunk in TrimedChunks)
             {
-                // You could hardcode your dimensions, but maybe some day they
-                // won't always be 16.  Also the CLR is a bit stupid and has
-                // trouble optimizing repeated calls to Chunk.Blocks.xx, so we
-                // cache them in locals
-                int xdim = chunk.Blocks.XDim;
-                int ydim = chunk.Blocks.YDim;
-                int zdim = chunk.Blocks.ZDim;
+                // World chunk offset
+                int globalChunkStartX = chunk.Chunk.X;
+                int globalChunkStartZ = chunk.Chunk.Z;
 
-                // Dont know why this was in the example...
-                chunk.Blocks.AutoFluid = true;
+                // hardcode your dimensions?
+                int xdim = chunk.Chunk.Blocks.XDim;
+                int ydim = chunk.Chunk.Blocks.YDim;
+                int zdim = chunk.Chunk.Blocks.ZDim;
 
                 // x, z, y is the most efficient order to scan blocks
                 // (not that you should care about internal detail)
@@ -279,8 +272,8 @@ namespace mca2vmf
                         for (int y = 0; y < ydim; y++)
                         {
                             //Note that blocks from MC have Y (height) in the middle
-                            BlockInfo info = chunk.Blocks.GetInfo(x, y, z);
-                            idIndex.IdArray[x + xOffset, z + zOffset, y + yOffset] = info.ID;
+                            BlockInfo info = chunk.Chunk.Blocks.GetInfo(x, y, z);
+                            idIndex.IdArray[(x * globalChunkStartX) + xOffset, (z * globalChunkStartZ) + zOffset, y + yOffset] = info.ID;
                         }
                     }
                 }
@@ -310,11 +303,9 @@ namespace mca2vmf
                         currentID++;
                         if (idIndex.IdArray[x, z, y] > 0)
                         {
-                            if (blockLimiterCount < 1)
+                            if (blockLimiterCount < int.MaxValue)
                             {
-                                //solids.Add(VMFConverter.createBoxAt(x, z, y, globalScale, currentID));
-
-                                solids.Add(VMFConverter.createBoxAt(0, 0, 0, globalScale, currentID));
+                                solids.Add(VMFConverter.createBoxAt(x * globalScale, z * globalScale, y * globalScale, globalScale, currentID));
                             }
                             blockLimiterCount++;
                         }
