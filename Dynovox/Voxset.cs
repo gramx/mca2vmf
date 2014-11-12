@@ -15,9 +15,9 @@ namespace Dynovox
             IdArray = new int[0, 0, 0];
         }
 
-        public Voxset(int topX, int topY, int topZ)
+        public Voxset(int topX, int topZ, int topY)
         {
-            IdArray = new int[topX, topY, topZ];
+            IdArray = new int[topX, topZ, topY];
         }
 
     }

@@ -53,13 +53,13 @@ namespace ValardMapFormatConverter
         public string Serialize(ref int tier)
         {
             StringBuilder sb = new StringBuilder("[");
-            sb.Append(x.ToString("F"));
+            sb.Append(x.ToString("F").Replace(".00", ""));
             sb.Append(" ");
-            sb.Append(y.ToString("F"));
+            sb.Append(y.ToString("F").Replace(".00", ""));
             sb.Append(" ");
-            sb.Append(z.ToString("F"));
+            sb.Append(z.ToString("F").Replace(".00", ""));
             sb.Append(" ");
-            sb.Append(translation.ToString("F"));
+            sb.Append(translation.ToString("F").Replace(".00", ""));
             sb.Append("] ");
             sb.Append(scaling.ToString("F"));
             return sb.ToString();

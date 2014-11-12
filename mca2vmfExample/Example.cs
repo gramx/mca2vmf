@@ -107,10 +107,11 @@ namespace mca2vmfExample
             //Console.WriteLine("Minecraft files trimed.");
             Console.ReadLine();
             //Test Create Boxes
+            Console.WriteLine("Building VMF classes...");
             Stopwatch s2 = Stopwatch.StartNew();
             ConvertFile.GenerateTestBoxSet();
             s2.Stop();
-            Console.WriteLine("Quick Ref ID Index built [{0}]", s2.Elapsed.ToString());
+            Console.WriteLine("Quick VMF class list built [{0}]", s2.Elapsed.ToString());
             Console.ReadLine();
 
             //Test VMF generation

@@ -9,37 +9,37 @@ namespace ValardMapFormatConverter
     public class vertex
     {
         public double x;
-        public double y;
         public double z;
+        public double y;
 
         public vertex()
         {
             x = 0;
-            y = 0;
             z = 0;
+            y = 0;
         }
 
-        public vertex(double X, double Y, double Z)
+        public vertex(double X, double Z, double Y)
         {
             x = X;
             y = Y;
             z = Z;
         }
 
-        public vertex(int X, int Y, int Z)
+        public vertex(int X, int Z, int Y)
         {
             x = X;
-            y = Y;
             z = Z;
+            y = Y;
         }
 
         public string Serialize(ref int tier)
         {
-            StringBuilder sb = new StringBuilder(x.ToString("F"));
+            StringBuilder sb = new StringBuilder(x.ToString("F").Replace(".00", ""));
             sb.Append(" ");
-            sb.Append(y.ToString("F"));
+            sb.Append(z.ToString("F").Replace(".00", ""));
             sb.Append(" ");
-            sb.Append(z.ToString("F"));
+            sb.Append(y.ToString("F").Replace(".00",""));
             return sb.ToString();
         }
     }

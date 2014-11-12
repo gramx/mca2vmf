@@ -65,19 +65,19 @@ namespace ValardMapFormatConverter
             return vmf.Serialize();
         }
 
-        public static solid createBoxAt(int x, int y, int z, ref int offset, int id)
+        public static solid createBoxAt(int x, int z, int y, int offset, int id)
         {
             solid result = new solid();
 
             result.id = id.ToString();
             result.editor = new editor();
 
-            result.side.Add(new side(x, y, z, null, 1, "DEV/DEV_MEASUREGENERIC01B", offset));
-            result.side.Add(new side(x, y, z, true, 1, "DEV/DEV_MEASUREGENERIC01", offset));
-            result.side.Add(new side(x, y, z, false, 1, "DEV/DEV_MEASUREGENERIC01", offset));
-            result.side.Add(new side(x, y, z, null, 1, "DEV/DEV_MEASUREGENERIC01B", offset * -1));
-            result.side.Add(new side(x, y, z, true, 1, "DEV/DEV_MEASUREGENERIC01", offset * -1));
-            result.side.Add(new side(x, y, z, false, 1, "DEV/DEV_MEASUREGENERIC01", offset * -1));
+            result.side.Add(new side(x, z, y, 1, 1, "DEV/DEV_MEASUREGENERIC01B", offset));
+            result.side.Add(new side(x, z, y, 2, 2, "DEV/DEV_MEASUREGENERIC01B", offset));
+            result.side.Add(new side(x, z, y, 3, 3, "DEV/DEV_MEASUREGENERIC01", offset));
+            result.side.Add(new side(x, z, y, 4, 4, "DEV/DEV_MEASUREGENERIC01", offset));
+            result.side.Add(new side(x, z, y, 5, 5, "DEV/DEV_MEASUREGENERIC01", offset));
+            result.side.Add(new side(x, z, y, 6, 6, "DEV/DEV_MEASUREGENERIC01", offset));
             
             return result;
         }

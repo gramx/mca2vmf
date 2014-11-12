@@ -250,11 +250,12 @@ namespace mca2vmf
         public static bool BuildIdIndex()
         {
             // Build quick ID ref index array (map grid to closer to zero numbers)
-            idIndex = new Voxset(xEnd + xOffset, yTop + yOffset, zEnd + zOffset);
+            idIndex = new Voxset(xEnd + xOffset, zEnd + zOffset, yTop + yOffset);
 
             // The chunk manager is more efficient than the block manager for
             // this purpose, since we'll inspect every block
             IChunkManager cm = importedWorld.GetChunkManager();
+
 
             foreach (ChunkRef chunk in cm)
             {
@@ -277,8 +278,9 @@ namespace mca2vmf
                     {
                         for (int y = 0; y < ydim; y++)
                         {
+                            //Note that blocks from MC have Y (height) in the middle
                             BlockInfo info = chunk.Blocks.GetInfo(x, y, z);
-                            idIndex.IdArray[x + xOffset, y + yOffset, z + zOffset] = info.ID;
+                            idIndex.IdArray[x + xOffset, z + zOffset, y + yOffset] = info.ID;
                         }
                     }
                 }
@@ -295,17 +297,26 @@ namespace mca2vmf
             List<solid> solids = new List<solid>();
             int currentID = 0;
 
+            //Testing limiter
+            int blockLimiterCount = 0;
+
             //Loop though list and make boxes if the ID is > 0 (not sky)
             for (int x = 0; x < idIndex.IdArray.GetLength(0); x++)
             {
-                for (int z = 0; z < idIndex.IdArray.GetLength(2); z++)
+                for (int z = 0; z < idIndex.IdArray.GetLength(1); z++)
                 {
-                    for (int y = 0; y < idIndex.IdArray.GetLength(1); y++)
+                    for (int y = 0; y < idIndex.IdArray.GetLength(2); y++)
                     {
                         currentID++;
-                        if (idIndex.IdArray[x, y, z] > 0)
+                        if (idIndex.IdArray[x, z, y] > 0)
                         {
-                            solids.Add(VMFConverter.createBoxAt(x, y, z, ref globalScale, currentID));
+                            if (blockLimiterCount < 1)
+                            {
+                                //solids.Add(VMFConverter.createBoxAt(x, z, y, globalScale, currentID));
+
+                                solids.Add(VMFConverter.createBoxAt(0, 0, 0, globalScale, currentID));
+                            }
+                            blockLimiterCount++;
                         }
                     }
                 }
@@ -331,7 +342,7 @@ namespace mca2vmf
         public static bool TestVMFGeneration(StringBuilder fileTextStringBuilder, string outputFilePath)
         {
             // Write the stream contents to a new file named "AllTxtFiles.txt".
-            using (StreamWriter outfile = new StreamWriter(outputFilePath + @"\mca2vmf_" + FileSafeDate() + @".txt"))
+            using (StreamWriter outfile = new StreamWriter(outputFilePath + @"\mca2vmf_" + FileSafeDate() + @".vmf"))
             {
                 outfile.Write(fileTextStringBuilder.ToString());
             }
@@ -341,7 +352,7 @@ namespace mca2vmf
 
         private static string FileSafeDate()
         {
-            return "Y" + DateTime.Now.Year.ToString("D4") + "M" + DateTime.Now.Month.ToString("D2") + "D" + DateTime.Now.Day.ToString("D2") + "h" + DateTime.Now.Hour.ToString("D2") + "m" + DateTime.Now.Hour.ToString("D2") + "s" + DateTime.Now.Second.ToString("D2") + "ms" + DateTime.Now.Millisecond.ToString("D4");
+            return "Y" + DateTime.Now.Year.ToString("D4") + "M" + DateTime.Now.Month.ToString("D2") + "D" + DateTime.Now.Day.ToString("D2") + "h" + DateTime.Now.Hour.ToString("D2") + "m" + DateTime.Now.Minute.ToString("D2") + "s" + DateTime.Now.Second.ToString("D2") + "ms" + DateTime.Now.Millisecond.ToString("D4");
         }
     }
 }
