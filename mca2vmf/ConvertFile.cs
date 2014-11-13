@@ -27,6 +27,9 @@ namespace mca2vmf
         private static int xEnd = 0;
         private static int yBottom = 0;
         private static int zEnd = 0;
+        private static int yTopOff = 0;
+        private static int xEndOff = 0;
+        private static int zEndOff = 0;
         private static Voxset idIndex = null;
         private static VMF valveMapFile = null;
 
@@ -82,6 +85,9 @@ namespace mca2vmf
             xOffset = xStart * -1;
             yOffset = yBottom * -1;
             zOffset = zStart * -1;
+            yTopOff = yTop + yOffset;
+            xEndOff = xEnd + xOffset;
+            zEndOff = zEnd + zOffset;
         }
 
         /// <summary>
@@ -115,6 +121,7 @@ namespace mca2vmf
         /// <returns></returns>
         public static bool TrimWorld()
         {
+
             //Clear trimmed chunks list
             TrimedChunks = new List<SimpleChunkRef>();
             
@@ -249,11 +256,24 @@ namespace mca2vmf
         /// <returns></returns>
         public static bool BuildIdIndex()
         {
+            //Get total
+            int TotalCubes = xEnd * zEnd * yTop;
+            int ChunkMax = 16 * 16 * yTop;
+            int TotalChunks = TrimedChunks.Count();
+            int CurrentChunk = 0;
+            double CurrentProgress = 0;
+            Console.WriteLine("Blocks: {0} ", TotalCubes);
+
             // Build quick ID ref index array (map grid to closer to zero numbers)
             idIndex = new Voxset(xEnd + xOffset, zEnd + zOffset, yTop + yOffset);
 
             foreach (SimpleChunkRef chunk in TrimedChunks)
             {
+                //Progress
+                CurrentChunk++;
+                CurrentProgress = ((double)CurrentChunk / (double)TotalChunks) * 100;
+                Console.Write("\rProgress: {0}% ({1} of {2})", String.Format("{0:000.0}", CurrentProgress), CurrentChunk, TotalChunks);
+
                 // World chunk offset
                 int globalChunkStartX = chunk.Chunk.X;
                 int globalChunkStartZ = chunk.Chunk.Z;
@@ -278,7 +298,7 @@ namespace mca2vmf
                     }
                 }
             }
-
+            Console.WriteLine(" DONE!");
             return true;
         }
 
@@ -288,7 +308,10 @@ namespace mca2vmf
         public static void GenerateTestBoxSet()
         {
             List<solid> solids = new List<solid>();
-            int currentID = 0;
+            int currentCountID = 0;
+            int blockID = 0;
+            Console.WriteLine("Generation started.");
+            Console.Write("\rLast ID: None ...");
 
             //Testing limiter
             int blockLimiterCount = 0;
@@ -300,18 +323,41 @@ namespace mca2vmf
                 {
                     for (int y = 0; y < idIndex.IdArray.GetLength(2); y++)
                     {
-                        currentID++;
+                        currentCountID++;
                         if (idIndex.IdArray[x, z, y] > 0)
                         {
                             if (blockLimiterCount < int.MaxValue)
                             {
-                                solids.Add(VMFConverter.createBoxAt(x * globalScale, z * globalScale, y * globalScale, globalScale, currentID));
+                                blockID = idIndex.IdArray[x, z, y];
+                                if (x == 0 || y == 0 || z == 0 || x == xEndOff || y == yTopOff || z == zEndOff)
+                                {
+                                    //Add if on edge
+                                    solids.Add(VMFConverter.createBoxAt(x * globalScale, z * globalScale, y * globalScale, globalScale, currentCountID));
+                                    Console.Write("\rLast ID: {0} Edge    ", String.Format("{0:000}", blockID));
+                                }
+                                else
+                                {
+                                    if (blockID != idIndex.IdArray[x - 1, z, y] || blockID != idIndex.IdArray[x, z - 1, y] || blockID != idIndex.IdArray[x, z, y - 1]
+                                     || blockID != idIndex.IdArray[x + 1, z, y] || blockID != idIndex.IdArray[x, z + 1, y] || blockID != idIndex.IdArray[x, z, y + 1])
+                                    {
+                                        //Add if different then atleast one block near
+                                        solids.Add(VMFConverter.createBoxAt(x, z, y, globalScale, currentCountID));
+                                        Console.Write("\rLast ID: {0} Unique  ", String.Format("{0:000}", blockID));
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine(" Found!");
+                                        Console.Write("\rLast ID: {0} Removed ", String.Format("{0:000}", blockID));
+                                    }
+                                }
                             }
                             blockLimiterCount++;
                         }
                     }
                 }
             }
+
+            Console.WriteLine(" Done!");
 
             //Add test boxes to map file
             valveMapFile.world.solid.AddRange(solids);
