@@ -26,6 +26,6 @@ The code used to read Mincraft map files .mca was heavily based on the Substrate
 
 
 
-      Copyright 2014 Grahame Cenkner
+      Copyright 2014 Grahame Cenkner (Apache)
 
 The LICENSE should be included in any-and-all disrubution see LICENSE for details.
